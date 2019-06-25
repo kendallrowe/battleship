@@ -17,16 +17,18 @@ const generateBoard = function(ship1, ship2) {
     }
   }
   return boardArray;
-}
+};
 
-// // Function to check if a ship is present at current coordinates
-// const shipIsHere = function(shipCoord, row, column) {
-//   if(shipCoord[0] === row && shipCoord[1] === column) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
+// Function to check if a ship is present at current coordinates
+const shipIsHere = function(shipCoord, row, column) {
+  if (shipCoord[0] === row && shipCoord[1] === column) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const fireShot = function(shipCoord)
 
 // const queenThreat = function(chessBoard) {
 //   let queen1 = new Array(2);
@@ -45,7 +47,7 @@ const generateBoard = function(ship1, ship2) {
 //         }  else {
 //           queen2 = [row, column];
 //         }
-//       } 
+//       }
 //     }
 //   }
 //   // If the queens are on the same row or column, return true - there is a threat
@@ -75,4 +77,3 @@ console.log(generatedBoard);
 
 generatedBoard = generateBoard([0, 0], [5, 7]);
 console.log(generatedBoard);
-console.log(queenThreat(generatedBoard));
