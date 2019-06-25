@@ -1,6 +1,4 @@
-
-
-const generateBoard = function(ship1, ship2) {
+const generateBoard = function() {
   let boardArray = new Array(10);
   
   // Iterate through each row of array
@@ -8,6 +6,8 @@ const generateBoard = function(ship1, ship2) {
     // Create new array for each row
     boardArray[row] = new Array(10);
     for (let column = 0; column < 10; column++) {
+      // Create array for each cell storing the player, ship type, and if a shot has been fired array
+      boardArray[row][column] = ["none","",false];
     }
   }
   return boardArray;
@@ -22,7 +22,7 @@ const placeShipOnBoard = function(currentBoard, shipStart, shipEnd) {
   } else {
     boardArray[row][column] = 0;
   }
-}
+};
 
 // Function to check if a ship is present at current coordinates
 const shipIsHere = function(shipCoord, row, column) {
@@ -33,15 +33,14 @@ const shipIsHere = function(shipCoord, row, column) {
   }
 };
 
+// Take input array of shot coordinates, request another shot if it's already been hit, update board if not
+// Notify if shot was a hit or a miss
 const fireShot = function(battleBoard, shotCoordinates) {
-  if 
-}
 
-let generatedBoard = generateBoardAndShips([0, 5], [5, 0]);
-console.log(generatedBoard);
+};
 
-generatedBoard = generateBoardAndShips([0, 0], [5, 7]);
-console.log(generatedBoard);
+
+console.log(generateBoard());
 
 
 // Main function to actually play the game
