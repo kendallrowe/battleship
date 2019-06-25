@@ -15,22 +15,21 @@ const generateBoard = function() {
 };
 
 const placeShipOnBoard = function(currentBoard, vertical, shipType, shipStart) {
-  if (shipIsHere(ship1, row, column) === true) {
-    boardArray[row][column] = 1;
-  } else if (shipIsHere(ship2, row, column) === true) {
-    boardArray[row][column] = 1;
-  } else {
-    boardArray[row][column] = 0;
-  }
+  // Check whether a ship is already in the specified location
+
+  // If space is empty, update board array to reflect location of the ship
+
+  // Update shipStatus for player to represent coordinates of the type of ship
+  
 };
 
-// Tiles length of each ship type
+// Tiles length of each ship type, start and end coordinates of ship, boolean of whether it has been sunk
 const shipStatus = {
-  carrier: [[], false, 5],
-  battleship: [[], false, 4],
-  cruiser: [[], false,3],
-  submarine: [[], false, 3],
-  destroyer: [[], false, 2]
+  carrier: [[], 5],
+  battleship: [[], 4],
+  cruiser: [[],3],
+  submarine: [[], 3],
+  destroyer: [[], 2]
 }
 
 // Function to check if a ship is present at current coordinates
@@ -54,7 +53,10 @@ const setUpShips = function(player) {
   let shipsRemaining = ["carrier", "battleship", "cruiser", "submarine", "destroyer"]
   let playerBoard = generateBoard();
 
+  // Iterate through all ships for the player
   for (let i = 0; i < shipsRemaining.length; i++) {
+    // Update player board with locations
     playerBoard = placeShipOnBoard(playerBoard, 1, shipsRemaining[i], 2);
+    
   }
 };
