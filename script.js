@@ -14,6 +14,17 @@ function PlayerBoard(playerNumber) {
       return alphabetOrder[alphaIndex] + row;
     };
   },
+  // Create an empty board array for a player storing null ship type and shot fired within each cell
+  this.generateBoardSpaces = function(playerNumber) {
+    const createSpace = this.createSpace(-1, 1);
+
+    for (let i = 1; i <= 100; i++) {
+      this[createSpace()] = {hasBeenShot: false};
+    }
+  },
+  this.placeShip = function(ship, coordinates) {
+
+  },
   // Take input array of shot coordinates, request another shot if it's already been hit, update board if not
   // Notify if shot was a hit or a miss
   this.fireShot = function(shotCoordinates) {
@@ -39,9 +50,6 @@ function Ship(shipType, playerNumber) {
 
     return shipTypeMaximums[shipType];
   },
-  this.placeShip = function(coordinates) {
-
-  },
   this.className;
 }
 
@@ -58,21 +66,12 @@ const generateShips = function(playerNumber) {
   return playerShips;
 };
 
-// Create an empty board array for a player storing null ship type and shot fired within each cell
-const generateBoard = function(playerNumber) {
-  let playerBoard = new PlayerBoard(playerNumber);
-  const createSpace = playerBoard.createSpace(-1, 1);
-
-  for (let i = 1; i <= 100; i++) {
-    playerBoard[createSpace()] = {hasBeenShot: false};
-  }
-
-  return playerBoard;
-};
-
 const startNewGame = function() {
-  let playerOneBoard = generateBoard("Player 1");
-  let playerTwoBoard = generateBoard("Player 2");
+
+  let playerOneBoard = new PlayerBoard("Player 1");
+  playerOneBoard.generateBoardSpaces("Player 1");
+  let playerTwoBoard = new PlayerBoard("Player 2");
+  playerTwoBoard.generateBoardSpaces("Player 2");
 
   let playerOneShips = generateShips("Player 1");
   let playerTwoShips = generateShips("Player 2");
