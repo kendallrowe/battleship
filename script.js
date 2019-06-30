@@ -15,47 +15,53 @@ function PlayerBoard() {
   }
 }
 
-// Tiles length of each ship type, start and end coordinates of ship, boolean of whether it has been sunk
-const shipStatus = {
-  carrier: [[], 5],
-  battleship: [[], 4],
-  cruiser: [[],3],
-  submarine: [[], 3],
-  destroyer: [[], 2]
-}
-
-function Ship(shipType, spaces) {
-  this.player = "",
-  this.spaces = spaces,
+// Ship constructor function
+function Ship(shipType, playerNumber) {
+  this.player = playerNumber,
+  this.spaces = [],
+  this.maxHits = 0;
   this.numberOfHits = 0;
   this.type = shipType,
+  this.calcMaxHits = function(shipType) {
+    const shipTypeMaximums = {
+      carrier: 5,
+      battleship: 4,
+      cruiser: 3,
+      submarine: 3,
+      destroyer: 2
+    }
+
+    return shipTypeMaximums[shipType];
+  }
   this.className
+}
+
+// Create fleet of ships for a player and store in object
+const generateShips = function(playerNumber) {
+  const shipTypes = ["carrier", "battleship", "cruiser", "submarine", "destroyer"];
+  let playerShips = {player: playerNumber}
+
+  shipTypes.forEach(function(shipType) {
+    playerShips[shipType] = new Ship(shipType, playerNumber);
+    playerShips[shipType].maxHits =  playerShips[shipType].calcMaxHits(shipType);
+  }); 
+
+  console.log(playerShips);
 }
 
 // Create an empty board array for a player storing null ship type and shot fired within each cell
 const generateBoard = function() {
-  let boardArray = new Array(10);
-  let playerOneBoard = new PlayerBoard();
-  const createSpace = playerOneBoard.createSpace(-1, 1);
+  let playerBoard = new PlayerBoard();
+  const createSpace = playerBoard.createSpace(-1, 1);
 
   for (let i = 1; i <= 100; i++) {
-    playerOneBoard[createSpace()] = {};
+    playerBoard[createSpace()] = {hasBeenShot: false};
   }
 
-  // // Iterate through each row of array
-  // for (let row = 0; row < 10; row++) {
-  //   // Create new array for each row
-  //   boardArray[row] = new Array(10);
-  //   for (let column = 0; column < 10; column++) {
-  //     // Create array for each cell storing ship type and if a shot has been fired array
-  //     boardArray[row][column] = new BoardSpace
-  //     boardArray[row][column].coordinate = createSpace();
-  //   }
-  // }
-  return playerOneBoard;
+  return playerBoard;
 };
 
-const test = generateBoard();
+const test = generateShips("Player1");
 
 console.log(test);
 
