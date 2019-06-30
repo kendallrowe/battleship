@@ -22,9 +22,6 @@ function PlayerBoard(playerNumber) {
       this[createSpace()] = {hasBeenShot: false};
     }
   },
-  this.placeShip = function(ship, coordinates) {
-
-  },
   // Take input array of shot coordinates, request another shot if it's already been hit, update board if not
   // Notify if shot was a hit or a miss
   this.fireShot = function(shotCoordinates) {
@@ -36,10 +33,8 @@ function PlayerBoard(playerNumber) {
 function Ship(shipType, playerNumber) {
   this.player = playerNumber,
   this.spaces = [],
-  this.maxHits = 0;
-  this.numberOfHits = 0;
   this.type = shipType,
-  this.calcMaxHits = function(shipType) {
+  this.calcMaxHits = function() {
     const shipTypeMaximums = {
       carrier: 5,
       battleship: 4,
@@ -47,24 +42,30 @@ function Ship(shipType, playerNumber) {
       submarine: 3,
       destroyer: 2
     };
-
-    return shipTypeMaximums[shipType];
+    
+    return shipTypeMaximums[this.type];
   },
-  this.className;
+  this.maxHits = this.calcMaxHits(),
+  this.numberOfHits = 0,
+  this.placeShip = function(ship, playerBoard, coordinates) {
+    this[ship].spaces = coordinates;
+    coordinates.forEach(function(coordinate) {
+      playerBoard[coordinate].ship = ship;
+    });
+  }
 }
 
-// Create fleet of ships for a player and store in object
-const generateShips = function(playerNumber) {
-  const shipTypes = ["carrier", "battleship", "cruiser", "submarine", "destroyer"];
-  let playerShips = {player: playerNumber};
+function PlayerFleet(playerNumber) {
+  this.player = playerNumber;
+  // Create fleet of ships for a player and store in object
+  this.generateShips = function() {
+    const shipTypes = ["carrier", "battleship", "cruiser", "submarine", "destroyer"];
 
-  shipTypes.forEach(function(shipType) {
-    playerShips[shipType] = new Ship(shipType, playerNumber);
-    playerShips[shipType].maxHits =  playerShips[shipType].calcMaxHits(shipType);
-  });
-
-  return playerShips;
-};
+    for (let i = 0; i < shipTypes.length; i++) {
+      this[shipTypes[i]] = new Ship(shipTypes[i], this.player);
+    }
+  }
+}
 
 const startNewGame = function() {
 
@@ -73,8 +74,12 @@ const startNewGame = function() {
   let playerTwoBoard = new PlayerBoard("Player 2");
   playerTwoBoard.generateBoardSpaces("Player 2");
 
-  let playerOneShips = generateShips("Player 1");
-  let playerTwoShips = generateShips("Player 2");
+  let playerOneShips = new PlayerFleet("Player 1");
+  playerOneShips.generateShips();
+  let playerTwoShips = new PlayerFleet("Player 2");
+  playerTwoShips.generateShips()
+
+  // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
   console.log(playerOneBoard);
   console.log(playerOneShips);
