@@ -2,7 +2,7 @@
 function PlayerBoard(playerNumber) {
   this.player = playerNumber;
   this.createSpace = function(alphaIndex, row) {
-    const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+    const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   
     return function() {
       if (alphaIndex === 9) {
@@ -12,7 +12,12 @@ function PlayerBoard(playerNumber) {
       alphaIndex++;
 
       return alphabetOrder[alphaIndex] + row;
-    }
+    };
+  },
+  // Take input array of shot coordinates, request another shot if it's already been hit, update board if not
+  // Notify if shot was a hit or a miss
+  this.fireShot = function(shotCoordinates) {
+  
   }
 }
 
@@ -30,25 +35,28 @@ function Ship(shipType, playerNumber) {
       cruiser: 3,
       submarine: 3,
       destroyer: 2
-    }
+    };
 
     return shipTypeMaximums[shipType];
-  }
-  this.className
+  },
+  this.placeShip = function(coordinates) {
+
+  },
+  this.className;
 }
 
 // Create fleet of ships for a player and store in object
 const generateShips = function(playerNumber) {
   const shipTypes = ["carrier", "battleship", "cruiser", "submarine", "destroyer"];
-  let playerShips = {player: playerNumber}
+  let playerShips = {player: playerNumber};
 
   shipTypes.forEach(function(shipType) {
     playerShips[shipType] = new Ship(shipType, playerNumber);
     playerShips[shipType].maxHits =  playerShips[shipType].calcMaxHits(shipType);
-  }); 
+  });
 
   return playerShips;
-}
+};
 
 // Create an empty board array for a player storing null ship type and shot fired within each cell
 const generateBoard = function(playerNumber) {
@@ -75,33 +83,6 @@ const startNewGame = function() {
   console.log(playerTwoBoard);
   console.log(playerTwoShips);
 
-}
+};
 
 const test = startNewGame();
-
-const placeShipOnBoard = function(currentBoard, vertical, shipType, shipStart) {
-  // Check whether a ship is already in the specified location
-
-  // If space is empty, update board array to reflect location of the ship
-
-  // Update shipStatus for player to represent coordinates of the type of ship
-  
-};
-
-
-// Function to check if a ship is present at current coordinates
-const shipIsHere = function(currentBoard, coordinates) {
-  
-};
-
-// Take input array of shot coordinates, request another shot if it's already been hit, update board if not
-// Notify if shot was a hit or a miss
-const fireShot = function(battleBoard, shotCoordinates) {
-
-};
-
-// Main function to actually play the game
-const playGame = function(){
-  let player1Board = setUpShips("player1");
-  let player2Board = setUpShips("player2");
-};
