@@ -1,5 +1,6 @@
 // Constructor function constaining closure function to generate spaces on the board
-function PlayerBoard() {
+function PlayerBoard(playerNumber) {
+  this.player = playerNumber;
   this.createSpace = function(alphaIndex, row) {
     const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
   
@@ -46,12 +47,12 @@ const generateShips = function(playerNumber) {
     playerShips[shipType].maxHits =  playerShips[shipType].calcMaxHits(shipType);
   }); 
 
-  console.log(playerShips);
+  return playerShips;
 }
 
 // Create an empty board array for a player storing null ship type and shot fired within each cell
-const generateBoard = function() {
-  let playerBoard = new PlayerBoard();
+const generateBoard = function(playerNumber) {
+  let playerBoard = new PlayerBoard(playerNumber);
   const createSpace = playerBoard.createSpace(-1, 1);
 
   for (let i = 1; i <= 100; i++) {
@@ -61,9 +62,22 @@ const generateBoard = function() {
   return playerBoard;
 };
 
-const test = generateShips("Player1");
+const startNewGame = function() {
+  let playerOneBoard = generateBoard("Player 1");
+  let playerTwoBoard = generateBoard("Player 2");
 
-console.log(test);
+  let playerOneShips = generateShips("Player 1");
+  let playerTwoShips = generateShips("Player 2");
+
+  console.log(playerOneBoard);
+  console.log(playerOneShips);
+
+  console.log(playerTwoBoard);
+  console.log(playerTwoShips);
+
+}
+
+const test = startNewGame();
 
 const placeShipOnBoard = function(currentBoard, vertical, shipType, shipStart) {
   // Check whether a ship is already in the specified location
@@ -90,16 +104,4 @@ const fireShot = function(battleBoard, shotCoordinates) {
 const playGame = function(){
   let player1Board = setUpShips("player1");
   let player2Board = setUpShips("player2");
-};
-
-const setUpShips = function(player) {
-  let shipsRemaining = ["carrier", "battleship", "cruiser", "submarine", "destroyer"]
-  let playerBoard = generateBoard();
-
-  // Iterate through all ships for the player
-  for (let i = 0; i < shipsRemaining.length; i++) {
-    // Update player board with locations
-    playerBoard = placeShipOnBoard(playerBoard, 1, shipsRemaining[i], 2);
-    
-  }
 };
