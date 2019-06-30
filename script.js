@@ -1,5 +1,5 @@
 // Constructor function constaining closure function to generate spaces on the board
-function BoardSpace() {
+function PlayerBoard() {
   this.createSpace = function(alphaIndex, row) {
     const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
   
@@ -12,8 +12,7 @@ function BoardSpace() {
 
       return alphabetOrder[alphaIndex] + row;
     }
-  },
-  this.ship = {}
+  }
 }
 
 // Tiles length of each ship type, start and end coordinates of ship, boolean of whether it has been sunk
@@ -36,20 +35,24 @@ function Ship(shipType, spaces) {
 // Create an empty board array for a player storing null ship type and shot fired within each cell
 const generateBoard = function() {
   let boardArray = new Array(10);
-  const firstSpace = new BoardSpace();
-  const createSpace = firstSpace.createSpace(-1, 1);
+  let playerOneBoard = new PlayerBoard();
+  const createSpace = playerOneBoard.createSpace(-1, 1);
 
-  // Iterate through each row of array
-  for (let row = 0; row < 10; row++) {
-    // Create new array for each row
-    boardArray[row] = new Array(10);
-    for (let column = 0; column < 10; column++) {
-      // Create array for each cell storing ship type and if a shot has been fired array
-      boardArray[row][column] = new BoardSpace
-      boardArray[row][column].coordinate = createSpace();
-    }
+  for (let i = 1; i <= 100; i++) {
+    playerOneBoard[createSpace()] = {};
   }
-  return boardArray;
+
+  // // Iterate through each row of array
+  // for (let row = 0; row < 10; row++) {
+  //   // Create new array for each row
+  //   boardArray[row] = new Array(10);
+  //   for (let column = 0; column < 10; column++) {
+  //     // Create array for each cell storing ship type and if a shot has been fired array
+  //     boardArray[row][column] = new BoardSpace
+  //     boardArray[row][column].coordinate = createSpace();
+  //   }
+  // }
+  return playerOneBoard;
 };
 
 const test = generateBoard();
