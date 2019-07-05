@@ -2,8 +2,7 @@ const { alphabetOrder, convertCoordinates } = require("./constants");
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
-  constructor(playerNumber) {
-    this.playerNumber = playerNumber
+  constructor() {
     this.createSpace = this.createSpace(-1, 1);
     this.boardSpaces = {};
     this.generateBoardSpaces();
@@ -53,9 +52,11 @@ class BoardSpace {
 }
 
 class PlayerFleet {
-  constructor() {
+  constructor(playerNumber) {
     // this.generateShips();
     this.shipsRemaining = 5;
+    this.playerNumber = playerNumber
+    this.playerBoard = new PlayerBoard();
     this.carrier = new Carrier();
     this.battleship = new Battleship();
     this.cruiser = new Cruiser();
@@ -95,9 +96,6 @@ class Ship {
 
       }
     }
-     // coordinates.forEach(function(coordinate) {
-    //   playerBoard[coordinate].ship = ship;
-    // });
   }
 }
 
@@ -136,16 +134,12 @@ class Destroyer extends Ship {
 
 const startNewGame = function() {
 
-  let playerOneBoard = new PlayerBoard("Player 1");
-  let playerTwoBoard = new PlayerBoard("Player 2");
 
-  let playerOneShips = new PlayerFleet();
-  let playerTwoShips = new PlayerFleet();
+  let playerOneShips = new PlayerFleet("Player 1");
+  let playerTwoShips = new PlayerFleet("Player 2");
   // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
-  console.log(playerOneBoard);
   console.log(playerOneShips);
-  console.log(playerTwoBoard);
   console.log(playerTwoShips);
 
 };
