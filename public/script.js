@@ -4,7 +4,6 @@ class PlayerBoard {
 
   constructor(playerNumber) {
     this.playerNumber = playerNumber
-    this.playerFleet = new PlayerFleet();
     this.createSpace = this.createSpace(-1, 1);
     this.boardSpaces = {};
     this.generateBoardSpaces();
@@ -90,9 +89,13 @@ class Ship {
 
   placeShip(coordinates, orientation) {
     for (let i = 1; i <= this.maxHits; i++) {
+      
+      switch(orientation) {
+        case "up":
 
+      }
     }
-    // coordinates.forEach(function(coordinate) {
+     // coordinates.forEach(function(coordinate) {
     //   playerBoard[coordinate].ship = ship;
     // });
   }
@@ -136,10 +139,14 @@ const startNewGame = function() {
   let playerOneBoard = new PlayerBoard("Player 1");
   let playerTwoBoard = new PlayerBoard("Player 2");
 
+  let playerOneShips = new PlayerFleet();
+  let playerTwoShips = new PlayerFleet();
   // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
   console.log(playerOneBoard);
+  console.log(playerOneShips);
   console.log(playerTwoBoard);
+  console.log(playerTwoShips);
 
 };
 
