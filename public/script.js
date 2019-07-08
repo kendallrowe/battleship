@@ -1,9 +1,10 @@
-const { alphabetOrder, convertCoordinates } = require("./constants"); 
+const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./constants"); 
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
-  constructor() {
+  constructor(playerNumber) {
     this.createSpace = this.createSpace(-1, 1);
+    this.playerNumber = playerNumber;
     this.boardSpaces = {};
     this.generateBoardSpaces();
   }
@@ -56,7 +57,6 @@ class PlayerFleet {
     // this.generateShips();
     this.shipsRemaining = 5;
     this.playerNumber = playerNumber
-    this.playerBoard = new PlayerBoard();
     this.carrier = new Carrier();
     this.battleship = new Battleship();
     this.cruiser = new Cruiser();
@@ -86,16 +86,32 @@ class Ship {
     }
   }
 
-  
-
-  placeShip(coordinates, orientation) {
+  placeShip(coordinates, playerBoard, orientation) {
+    let coordinatesArray = [];
     for (let i = 1; i <= this.maxHits; i++) {
-      
-      switch(orientation) {
+      playerBoard.boardSpaces[coordinates].ship = this;
+      coordinatesArray = convertCoordinatesToNum(coordinates);
+      switch (orientation) {
         case "up":
-
+          coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "up"); 
+          break;
+        case "right":
+          coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "right");
+          break;
+        case "down":
+          coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "down");
+          break;
+        case "left":
+          coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
+          break;
       }
+      if (coordinatesArray.findIndex(Number.isNaN) !== -1) {
+        return;
+      }
+
+      coordinates = convertNumToCoordinates(coordinatesArray);
     }
+    console.log(playerBoard);
   }
 }
 
@@ -131,16 +147,21 @@ class Destroyer extends Ship {
 }
 
 
-
+// Driver code
 const startNewGame = function() {
 
 
   let playerOneShips = new PlayerFleet("Player 1");
+  let playerOneBoard = new PlayerBoard("Player 1");
+  let playerTwoBoard = new PlayerBoard("Player 2");
   let playerTwoShips = new PlayerFleet("Player 2");
   // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
-  console.log(playerOneShips);
-  console.log(playerTwoShips);
+  // console.log(playerOneShips);
+  // console.log(playerOneBoard);
+  playerTwoShips.battleship.placeShip("E5", playerOneBoard, "up");
+  // console.log(playerTwoShips);
+  // console.log(playerTwoBoard);
 
 };
 
