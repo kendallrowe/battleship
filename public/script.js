@@ -1,4 +1,4 @@
-const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./constants"); 
+const { alphabetOrder, placementIsValid, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./constants"); 
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
@@ -88,9 +88,18 @@ class Ship {
 
   placeShip(coordinates, playerBoard, orientation) {
     let coordinatesArray = [];
+
+    // Reject placement if it goes out of bounds
+    if (placementIsValid(coordinates, orientation, this.maxHits) === "Invalid") {
+      console.log("Make sure to pick a valid placement!");
+      return;
+    }
+
     for (let i = 1; i <= this.maxHits; i++) {
       playerBoard.boardSpaces[coordinates].ship = this;
       coordinatesArray = convertCoordinatesToNum(coordinates);
+
+      // Adjust current coordinate array based on the specified orientation
       switch (orientation) {
         case "up":
           coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "up"); 
@@ -105,9 +114,7 @@ class Ship {
           coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
           break;
       }
-      if (coordinatesArray.findIndex(Number.isNaN) !== -1) {
-        return;
-      }
+      
 
       coordinates = convertNumToCoordinates(coordinatesArray);
     }
@@ -159,7 +166,7 @@ const startNewGame = function() {
 
   // console.log(playerOneShips);
   // console.log(playerOneBoard);
-  playerTwoShips.battleship.placeShip("E5", playerOneBoard, "up");
+  playerTwoShips.battleship.placeShip("J5", playerOneBoard, "right");
   // console.log(playerTwoShips);
   // console.log(playerTwoBoard);
 
