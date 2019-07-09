@@ -83,9 +83,8 @@ class Ship {
 
     for (let i = 1; i <= this.maxHits; i++) {
       toBePlacedTileArray.push(coordinates);
-      console.log(coordinates);
+      
       coordinatesArray = convertCoordinatesToNum(coordinates);
-      console.log(coordinatesArray);
       // Adjust current coordinate array based on the specified orientation
       switch (orientation) {
         case "up":
@@ -101,8 +100,8 @@ class Ship {
           coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
           break;
       }
-    
-      if (coordinatesArray.findIndex(Number.isNaN) !== -1) {
+
+      if (playerBoard.boardSpaces[coordinates].ship || coordinatesArray.findIndex(Number.isNaN) !== -1) {
         console.log("Make sure to pick a valid placement!");
         return;
       }
@@ -112,6 +111,8 @@ class Ship {
     for (let tile of toBePlacedTileArray) {
       playerBoard.boardSpaces[tile].ship = this;
     };    
+
+    console.log(playerBoard);
   }
 }
 
@@ -159,7 +160,7 @@ const startNewGame = function() {
 
   // console.log(playerOneShips);
   // console.log(playerOneBoard);
-  playerTwoShips.battleship.placeShip("A1", playerOneBoard, "down");
+  playerTwoShips.battleship.placeShip("J1", playerOneBoard, "left");
   // console.log(playerTwoShips);
   // console.log(playerTwoBoard);
 
