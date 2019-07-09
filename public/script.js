@@ -1,10 +1,11 @@
-const { alphabetOrder, placementIsValid, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./constants"); 
+const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./constants"); 
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
   constructor(playerNumber) {
     this.createSpace = this.createSpace(-1, 1);
     this.playerNumber = playerNumber;
+    this.placedShipCoordinates = [];
     this.boardSpaces = {};
     this.generateBoardSpaces();
   }
@@ -18,11 +19,10 @@ class PlayerBoard {
 
   }
 
+  // Closure function to create a label for a space object (ie. A1, A2, etc.)
   createSpace(alphaIndex, row) {
   
     return function() {
-      // console.log(alphaIndex);
-      // console.log(row);
       if (alphaIndex === 9) {
         row++;
         alphaIndex = -1;
@@ -54,7 +54,6 @@ class BoardSpace {
 
 class PlayerFleet {
   constructor(playerNumber) {
-    // this.generateShips();
     this.shipsRemaining = 5;
     this.playerNumber = playerNumber
     this.carrier = new Carrier();
@@ -63,14 +62,6 @@ class PlayerFleet {
     this.submarine = new Submarine();
     this.destroyer = new Destroyer();
   }
-  // // Create fleet of ships for a player and store in object
-  // generateShips() {
-  //   const shipTypes = ["carrier", "battleship", "cruiser", "submarine", "destroyer"];
-
-  //   for (let i = 0; i < shipTypes.length; i++) {
-  //     this[shipTypes[i]] = new Ship(shipTypes[i], this.player);
-  //   }
-  // }
 }
 
 class Ship {
@@ -88,17 +79,13 @@ class Ship {
 
   placeShip(coordinates, playerBoard, orientation) {
     let coordinatesArray = [];
-
-    // Reject placement if it goes out of bounds
-    if (placementIsValid(coordinates, orientation, this.maxHits) === "Invalid") {
-      console.log("Make sure to pick a valid placement!");
-      return;
-    }
+    let toBePlacedTileArray = [];
 
     for (let i = 1; i <= this.maxHits; i++) {
-      playerBoard.boardSpaces[coordinates].ship = this;
+      toBePlacedTileArray.push(coordinates);
+      console.log(coordinates);
       coordinatesArray = convertCoordinatesToNum(coordinates);
-
+      console.log(coordinatesArray);
       // Adjust current coordinate array based on the specified orientation
       switch (orientation) {
         case "up":
@@ -114,11 +101,17 @@ class Ship {
           coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
           break;
       }
-      
+    
+      if (coordinatesArray.findIndex(Number.isNaN) !== -1) {
+        console.log("Make sure to pick a valid placement!");
+        return;
+      }
 
       coordinates = convertNumToCoordinates(coordinatesArray);
     }
-    console.log(playerBoard);
+    for (let tile of toBePlacedTileArray) {
+      playerBoard.boardSpaces[tile].ship = this;
+    };    
   }
 }
 
@@ -166,7 +159,7 @@ const startNewGame = function() {
 
   // console.log(playerOneShips);
   // console.log(playerOneBoard);
-  playerTwoShips.battleship.placeShip("J5", playerOneBoard, "right");
+  playerTwoShips.battleship.placeShip("A1", playerOneBoard, "down");
   // console.log(playerTwoShips);
   // console.log(playerTwoBoard);
 
