@@ -5,23 +5,23 @@ class PlayerBoard {
   constructor(playerNumber) {
     this.createSpace = this.createSpace(-1, 1);
     this.playerNumber = playerNumber;
-    this.placedShipCoordinates = [];
     this.boardSpaces = {};
     this.generateBoardSpaces();
   }
 
   // Create an empty board array for a player storing null ship type and shot fired within each cell
   generateBoardSpaces() {
-
+    let coordinateLabel;
     for (let i = 1; i <= 100; i++) {
-      this.boardSpaces[this.createSpace()] = new BoardSpace();
+      coordinateLabel = this.createSpace();
+      this.boardSpaces[coordinateLabel] = new BoardSpace();
+      this.boardSpaces[coordinateLabel].coordinateLabel = coordinateLabel;
     }
 
   }
 
   // Closure function to create a label for a space object (ie. A1, A2, etc.)
   createSpace(alphaIndex, row) {
-  
     return function() {
       if (alphaIndex === 9) {
         row++;
@@ -32,23 +32,22 @@ class PlayerBoard {
       return alphabetOrder[alphaIndex] + row;
     };
   }
-
-  fireShot(shotCoordinates) {
-    if (this.boardSpaces[shotCoordinates].hasBeenShot) {
-      return "Oops! Looks like you've already shot there. Try picking another spot.";
-    }
-
-    if (this.boardSpaces[shotCoordinates].shipOnSpace) {
-      this.boardSpaces[shotCoordinates].shipOnSpace.spacesHit.shipIsShot(shotCoordinates);
-
-    }
-  }
-
 }
 
 class BoardSpace {
   constructor() {
     this.hasBeenShot = false;
+  }
+
+  fireShot(shotCoordinates) {
+    if (this.hasBeenShot) {
+      return "Oops! Looks like you've already shot there. Try picking another spot.";
+    }
+
+    if (this.shipOnSpace) {
+      this.boardSpaces[shotCoordinates].shipOnSpace.spacesHit.shipIsShot(shotCoordinates);
+
+    }
   }
 }
 
@@ -158,9 +157,9 @@ const startNewGame = function() {
   let playerTwoShips = new PlayerFleet("Player 2");
   // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
-  // console.log(playerOneShips);
-  // console.log(playerOneBoard);
-  playerTwoShips.battleship.placeShip("J1", playerOneBoard, "left");
+  console.log(playerOneShips);
+  console.log(playerOneBoard);
+  playerOneShips.battleship.placeShip("E5", playerOneBoard, "left");
   // console.log(playerTwoShips);
   // console.log(playerTwoBoard);
 
