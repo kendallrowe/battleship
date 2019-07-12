@@ -44,8 +44,8 @@ class BoardSpace {
       return "Oops! Looks like you've already shot there. Try picking another spot.";
     }
 
-    if (this.shipOnSpace) {
-      this.boardSpaces[shotCoordinates].shipOnSpace.spacesHit.shipIsShot(shotCoordinates);
+    if (this.ship) {
+      this.ship.spacesHit.shipIsShot(this.coordinateLabel);
 
     }
   }
@@ -72,7 +72,8 @@ class Ship {
   shipIsShot(shotCoordinates) {
     this.spacesHit.push(shotCoordinates);
     if (this.spacesHit.length === this.maxHits) {
-
+      this.sunk = true;
+      super.
     }
   }
 
@@ -118,31 +119,35 @@ class Ship {
 class Carrier extends Ship {
   constructor() {
     super(5);
-
+    this.type = "carrier";
   }
 }
 
 class Battleship extends Ship {
   constructor() {
     super(4);
+    this.type = "battleship";
   }
 }
 
 class Cruiser extends Ship {
   constructor() {
     super(3);
+    this.type = "cruiser";
   }
 }
 
 class Submarine extends Ship {
   constructor() {
     super(3);
+    this.type = "submarine";
   }
 }
 
 class Destroyer extends Ship {
   constructor() {
     super(2);
+    this.type = "destroyer";
   }
 }
 
