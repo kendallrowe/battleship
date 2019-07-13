@@ -1,4 +1,4 @@
-const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
 // Takes a current index number and increases or decreases as needed. Resettingvalue back to min as required.
 const moveVerticalOrHorizontal = function(indexNum, direction) {
@@ -16,14 +16,14 @@ const moveVerticalOrHorizontal = function(indexNum, direction) {
   }
  
   return indexNum;
-}
+};
 
 const convertCoordinatesToNum = function(coordinates) {
-  return [alphabetOrder.indexOf(coordinates.charAt(0)), parseInt(coordinates.substring(1), 10)]
+  return [alphabetOrder.indexOf(coordinates.charAt(0)), parseInt(coordinates.substring(1), 10)];
 };
 
 const convertNumToCoordinates = function(coordArray) {
   return alphabetOrder[coordArray[0]] + coordArray[1];
-}
+};
 
 module.exports = { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates };

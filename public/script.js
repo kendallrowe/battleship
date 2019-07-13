@@ -1,4 +1,4 @@
-const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./constants"); 
+const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./helpers"); 
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
@@ -39,41 +39,52 @@ class BoardSpace {
     this.hasBeenShot = false;
   }
 
-  fireShot(shotCoordinates) {
+  fireShot() {
     if (this.hasBeenShot) {
-      return "Oops! Looks like you've already shot there. Try picking another spot.";
+      console.log("Oops! Looks like you've already shot there. Try picking another spot.");
     }
 
     if (this.ship) {
-      this.ship.spacesHit.shipIsShot(this.coordinateLabel);
-
+      this.ship.shipIsShot(this.coordinateLabel);
     }
+    this.hasBeenShot = true;
   }
 }
 
 class PlayerFleet {
   constructor(playerNumber) {
-    this.shipsRemaining = 5;
     this.playerNumber = playerNumber
-    this.carrier = new Carrier();
-    this.battleship = new Battleship();
-    this.cruiser = new Cruiser();
-    this.submarine = new Submarine();
-    this.destroyer = new Destroyer();
+    this.carrier = new Carrier(this);
+    this.battleship = new Battleship(this);
+    this.cruiser = new Cruiser(this);
+    this.submarine = new Submarine(this);
+    this.destroyer = new Destroyer(this);
+    this.sunkShips = [];
+  }
+
+  sinkShip(shipType) {
+    this.sunkShips.push(shipType);
+    if (this.sunkShips.length === 1) {
+      this.endGame(this.playerNumber);
+    }
+  }
+
+  endGame(playerNumber) {
+    console.log(`${playerNumber} loses!`)
   }
 }
 
 class Ship {
-  constructor(maxHitAmount) {
+  constructor(maxHitAmount, playerFleet) {
     this.spacesHit = []
     this.maxHits = maxHitAmount;
+    this.fleet = playerFleet;
   }
 
   shipIsShot(shotCoordinates) {
     this.spacesHit.push(shotCoordinates);
     if (this.spacesHit.length === this.maxHits) {
-      this.sunk = true;
-      super.
+      this.fleet.sinkShip(this.type);
     }
   }
 
@@ -83,7 +94,6 @@ class Ship {
 
     for (let i = 1; i <= this.maxHits; i++) {
       toBePlacedTileArray.push(coordinates);
-      
       coordinatesArray = convertCoordinatesToNum(coordinates);
       // Adjust current coordinate array based on the specified orientation
       switch (orientation) {
@@ -100,7 +110,6 @@ class Ship {
           coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
           break;
       }
-
       if (playerBoard.boardSpaces[coordinates].ship || coordinatesArray.findIndex(Number.isNaN) !== -1) {
         console.log("Make sure to pick a valid placement!");
         return;
@@ -111,45 +120,44 @@ class Ship {
     for (let tile of toBePlacedTileArray) {
       playerBoard.boardSpaces[tile].ship = this;
     };    
-
-    console.log(playerBoard);
   }
 }
 
 class Carrier extends Ship {
-  constructor() {
-    super(5);
+  constructor(playerFleet) {
+    super(5, playerFleet);
     this.type = "carrier";
   }
 }
 
 class Battleship extends Ship {
-  constructor() {
-    super(4);
+  constructor(playerFleet) {
+    super(4, playerFleet);
     this.type = "battleship";
   }
 }
 
 class Cruiser extends Ship {
-  constructor() {
-    super(3);
+  constructor(playerFleet) {
+    super(3, playerFleet);
     this.type = "cruiser";
   }
 }
 
 class Submarine extends Ship {
-  constructor() {
-    super(3);
+  constructor(playerFleet) {
+    super(3, playerFleet);
     this.type = "submarine";
   }
 }
 
 class Destroyer extends Ship {
-  constructor() {
-    super(2);
+  constructor(playerFleet) {
+    super(2, playerFleet);
     this.type = "destroyer";
   }
 }
+
 
 
 // Driver code
@@ -162,12 +170,28 @@ const startNewGame = function() {
   let playerTwoShips = new PlayerFleet("Player 2");
   // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
-  console.log(playerOneShips);
-  console.log(playerOneBoard);
   playerOneShips.battleship.placeShip("E5", playerOneBoard, "left");
+  playerOneBoard.boardSpaces.E5.fireShot();
+  playerOneBoard.boardSpaces.E4.fireShot();
+  playerOneBoard.boardSpaces.A7.fireShot();
+  playerOneBoard.boardSpaces.J4.fireShot();
+  playerOneBoard.boardSpaces.D9.fireShot();
+  playerOneBoard.boardSpaces.D9.fireShot();
+
+
+  playerOneBoard.boardSpaces.E3.fireShot();
+  playerOneBoard.boardSpaces.E2.fireShot();
+  console.log(playerOneBoard);
+
+
+  // console.log(playerOneBoard);
+  // console.log(playerOneShips);
+  
   // console.log(playerTwoShips);
   // console.log(playerTwoBoard);
 
 };
+
+
 
 const test = startNewGame();
