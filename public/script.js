@@ -1,4 +1,4 @@
-const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./helpers"); 
+const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./helpers");
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
@@ -51,9 +51,11 @@ class BoardSpace {
   }
 }
 
+// Class container for all ship objects for a given player. Generates ships and can control any given ship movement functionality
+// Win condition driven through sinkship/engame
 class PlayerFleet {
   constructor(playerNumber) {
-    this.playerNumber = playerNumber
+    this.playerNumber = playerNumber;
     this.carrier = new Carrier(this);
     this.battleship = new Battleship(this);
     this.cruiser = new Cruiser(this);
@@ -70,13 +72,14 @@ class PlayerFleet {
   }
 
   endGame(playerNumber) {
-    console.log(`${playerNumber} loses!`)
+    console.log(`${playerNumber} loses!`);
   }
 }
 
+// General ship class, contains functionality to place and track shots on a given ship. Update fleet object when a given ship is sunk
 class Ship {
   constructor(maxHitAmount, playerFleet) {
-    this.spacesHit = []
+    this.spacesHit = [];
     this.maxHits = maxHitAmount;
     this.fleet = playerFleet;
   }
@@ -97,18 +100,18 @@ class Ship {
       coordinatesArray = convertCoordinatesToNum(coordinates);
       // Adjust current coordinate array based on the specified orientation
       switch (orientation) {
-        case "up":
-          coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "up"); 
-          break;
-        case "right":
-          coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "right");
-          break;
-        case "down":
-          coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "down");
-          break;
-        case "left":
-          coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
-          break;
+      case "up":
+        coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "up");
+        break;
+      case "right":
+        coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "right");
+        break;
+      case "down":
+        coordinatesArray[0] = moveVerticalOrHorizontal(coordinatesArray[0], "down");
+        break;
+      case "left":
+        coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
+        break;
       }
       if (playerBoard.boardSpaces[coordinates].ship || coordinatesArray.findIndex(Number.isNaN) !== -1) {
         console.log("Make sure to pick a valid placement!");
@@ -119,10 +122,11 @@ class Ship {
     }
     for (let tile of toBePlacedTileArray) {
       playerBoard.boardSpaces[tile].ship = this;
-    };    
+    }
   }
 }
 
+// Individual ship types
 class Carrier extends Ship {
   constructor(playerFleet) {
     super(5, playerFleet);
