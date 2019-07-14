@@ -61,13 +61,29 @@ h5 {
   font-family: 'Libre Baskerville', serif;
 }
 
+/* Wrapper */
+.wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 97%;
+  text-align: center;
+}
+
+/* Nav Formatting */
 nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 0 2.5%;
   height: 10vh;
   width: 100%;
   position: fixed;
   background: #02AA73;
 }
+
+nav img {
+  height: 8vh;
+  width: auto;
+}
+
