@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/kendallrowe/battleship/issues"
   },
-  "homepage": "https://github.com/kendallrowe/battleship#readme"
+  "homepage": "https://github.com/kendallrowe/battleship#readme",
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1"
+  }
 }
