@@ -66,7 +66,7 @@ class PlayerFleet {
 
   sinkShip(shipType) {
     this.sunkShips.push(shipType);
-    if (this.sunkShips.length === 1) {
+    if (this.sunkShips.length === 5) {
       this.endGame(this.playerNumber);
     }
   }
@@ -189,7 +189,7 @@ const startNewGame = function() {
 
 
   // console.log(playerOneBoard);
-  // console.log(playerOneShips);
+  // console.log(playerOneShips);No
   
   // console.log(playerTwoShips);
   // console.log(playerTwoBoard);
