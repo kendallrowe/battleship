@@ -5,7 +5,7 @@ html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}bo
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 img{
@@ -14,27 +14,60 @@ img{
 }
 
 .visuallyhidden:not(:focus):not(:active) {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          margin: -1px;
-          border: 0;
-          padding: 0;
-          white-space: nowrap;
-          clip-path: inset(100%);
-          clip: rect(0 0 0 0);
-          overflow: hidden;
-    }
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
 
 .skip-link {
-    position: absolute;
-    left: -1000px;
-    top: 5px;
-    z-index: 999;
-    background: white;
-    color: black;
+  position: absolute;
+  left: -1000px;
+  top: 5px;
+  z-index: 999;
+  background: white;
+  color: black;
 }
 
 .skip-link:focus {
-    left: 0;
+  left: 0;
+}
+
+/* General formatting */
+
+/* Colour styles: */
+/* Primary: #02AA73 */
+/* Secondary: #BEFBC7 */
+/* Tertiary: #FF5F5B */
+
+/* Headings: font-family: 'Libre Baskerville', serif;
+   Body: font-family: 'Rubik', sans-serif; */
+
+body {
+  font-family: 'Rubik', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Libre Baskerville', serif;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  height: 10vh;
+  width: 100%;
+  position: fixed;
+  background: #02AA73;
 }
