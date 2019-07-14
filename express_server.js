@@ -4,8 +4,11 @@ const PORT = 8080;
 
 app.set("view engine", "ejs");
 
+app.use(express.static(__dirname + '/public'));
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.get("/", (req, res) => {
   let templateVars = {
