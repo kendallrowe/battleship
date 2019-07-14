@@ -1,4 +1,4 @@
-const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./helpers");
+// const { alphabetOrder, moveVerticalOrHorizontal, convertCoordinatesToNum, convertNumToCoordinates } = require("./helpers");
 // Constructor function constaining closure function to generate spaces on the board
 class PlayerBoard {
 
@@ -37,6 +37,7 @@ class PlayerBoard {
 class BoardSpace {
   constructor() {
     this.hasBeenShot = false;
+    this.imageUri = '/assets/soil-patch.png';
   }
 
   fireShot() {
