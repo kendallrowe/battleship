@@ -196,6 +196,4 @@ const startNewGame = function() {
 
 };
 
-
-
 const test = startNewGame();
