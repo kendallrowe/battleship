@@ -9,7 +9,7 @@ class PlayerBoard {
     this.generateBoardSpaces();
   }
 
-  // Create an empty board array for a player storing null ship type and shot fired within each cell
+  // Create an empty board array for a player storing null vegetable type and shot fired within each cell
   generateBoardSpaces() {
     let coordinateLabel;
     for (let i = 1; i <= 100; i++) {
@@ -45,29 +45,29 @@ class BoardSpace {
       console.log("Oops! Looks like you've already shot there. Try picking another spot.");
     }
 
-    if (this.ship) {
-      this.ship.shipIsShot(this.coordinateLabel);
+    if (this.vegetable) {
+      this.vegetable.vegeIsShot(this.coordinateLabel);
     }
     this.hasBeenShot = true;
   }
 }
 
-// Class container for all ship objects for a given player. Generates ships and can control any given ship movement functionality
-// Win condition driven through sinkship/engame
-class PlayerFleet {
+// Class container for all vegetable objects for a given player. Generates vegetables and can control any given vegetable movement functionality
+// Win condition driven through finishVege/engame
+class PlayerGarden {
   constructor(playerNumber) {
     this.playerNumber = playerNumber;
-    this.carrier = new Carrier(this);
-    this.battleship = new Battleship(this);
-    this.cruiser = new Cruiser(this);
-    this.submarine = new Submarine(this);
-    this.destroyer = new Destroyer(this);
-    this.sunkShips = [];
+    this.eggplant = new Eggplant(this);
+    this.cucumber = new Cucumber(this);
+    this.carrot = new Carrot(this);
+    this.corn = new Corn(this);
+    this.broccoli = new Broccoli(this);
+    this.finishedVegetables = [];
   }
 
-  sinkShip(shipType) {
-    this.sunkShips.push(shipType);
-    if (this.sunkShips.length === 5) {
+  finishVege(vegeType) {
+    this.finishedVegetables.push(vegeType);
+    if (this.finishedVegetables.length === 5) {
       this.endGame(this.playerNumber);
     }
   }
@@ -77,22 +77,22 @@ class PlayerFleet {
   }
 }
 
-// General ship class, contains functionality to place and track shots on a given ship. Update fleet object when a given ship is sunk
-class Ship {
-  constructor(maxHitAmount, playerFleet) {
+// General vegetable class, contains functionality to place and track shots on a given vegetable. Update garden object when a given vegetable is sunk
+class Vegetable {
+  constructor(maxHitAmount, playerGarden) {
     this.spacesHit = [];
     this.maxHits = maxHitAmount;
-    this.fleet = playerFleet;
+    this.garden = playerGarden;
   }
 
-  shipIsShot(shotCoordinates) {
+  vegeIsShot(shotCoordinates) {
     this.spacesHit.push(shotCoordinates);
     if (this.spacesHit.length === this.maxHits) {
-      this.fleet.sinkShip(this.type);
+      this.garden.finishVege(this.type);
     }
   }
 
-  placeShip(coordinates, playerBoard, orientation) {
+  placeVege(coordinates, playerBoard, orientation) {
     let coordinatesArray = [];
     let toBePlacedTileArray = [];
 
@@ -114,7 +114,7 @@ class Ship {
         coordinatesArray[1] = moveVerticalOrHorizontal(coordinatesArray[1], "left");
         break;
       }
-      if (playerBoard.boardSpaces[coordinates].ship || coordinatesArray.findIndex(Number.isNaN) !== -1) {
+      if (playerBoard.boardSpaces[coordinates].vegetable || coordinatesArray.findIndex(Number.isNaN) !== -1) {
         console.log("Make sure to pick a valid placement!");
         return;
       }
@@ -122,44 +122,44 @@ class Ship {
       coordinates = convertNumToCoordinates(coordinatesArray);
     }
     for (let tile of toBePlacedTileArray) {
-      playerBoard.boardSpaces[tile].ship = this;
+      playerBoard.boardSpaces[tile].vegetables = this;
     }
   }
 }
 
-// Individual ship types
-class Carrier extends Ship {
-  constructor(playerFleet) {
-    super(5, playerFleet);
-    this.type = "carrier";
+// Individual vegetables types
+class Eggplant extends Vegetable {
+  constructor(playerGarden) {
+    super(5, playerGarden);
+    this.type = "eggplant";
   }
 }
 
-class Battleship extends Ship {
-  constructor(playerFleet) {
-    super(4, playerFleet);
-    this.type = "battleship";
+class Cucumber extends Vegetable {
+  constructor(playerGarden) {
+    super(4, playerGarden);
+    this.type = "cucumber";
   }
 }
 
-class Cruiser extends Ship {
-  constructor(playerFleet) {
-    super(3, playerFleet);
-    this.type = "cruiser";
+class Carrot extends Vegetable {
+  constructor(playerGarden) {
+    super(3, playerGarden);
+    this.type = "carrot";
   }
 }
 
-class Submarine extends Ship {
-  constructor(playerFleet) {
-    super(3, playerFleet);
-    this.type = "submarine";
+class Corn extends Vegetable {
+  constructor(playerGarden) {
+    super(3, playerGarden);
+    this.type = "corn";
   }
 }
 
-class Destroyer extends Ship {
-  constructor(playerFleet) {
-    super(2, playerFleet);
-    this.type = "destroyer";
+class Broccoli extends Vegetable {
+  constructor(playerGarden) {
+    super(2, playerGarden);
+    this.type = "broccoli";
   }
 }
 
@@ -169,13 +169,13 @@ class Destroyer extends Ship {
 const startNewGame = function() {
 
 
-  let playerOneShips = new PlayerFleet("Player 1");
+  let playerOneVegetables = new PlayerGarden("Player 1");
   let playerOneBoard = new PlayerBoard("Player 1");
   let playerTwoBoard = new PlayerBoard("Player 2");
-  let playerTwoShips = new PlayerFleet("Player 2");
-  // playerOneShips.placeShip("battleship", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
+  let playerTwoVegetables = new PlayerGarden("Player 2");
+  // playerOneVegetables.placeVege("cucumber", playerOneBoard, ["A1", "A2", "A3", "A4", "A5"]);
 
-  playerOneShips.battleship.placeShip("E5", playerOneBoard, "left");
+  playerOneVegetables.cucumber.placeVege("E5", playerOneBoard, "left");
   playerOneBoard.boardSpaces.E5.fireShot();
   playerOneBoard.boardSpaces.E4.fireShot();
   playerOneBoard.boardSpaces.A7.fireShot();
@@ -183,18 +183,16 @@ const startNewGame = function() {
   playerOneBoard.boardSpaces.D9.fireShot();
   playerOneBoard.boardSpaces.D9.fireShot();
 
-
   playerOneBoard.boardSpaces.E3.fireShot();
   playerOneBoard.boardSpaces.E2.fireShot();
   console.log(playerOneBoard);
 
-
   // console.log(playerOneBoard);
-  // console.log(playerOneShips);No
+  // console.log(playerOneVegetabless);No
   
-  // console.log(playerTwoShips);
+  // console.log(playerTwoVegetables);
   // console.log(playerTwoBoard);
 
 };
 
-const test = startNewGame();
+// const test = startNewGame();

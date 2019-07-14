@@ -1,5 +1,3 @@
-// const alphabetOrder = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-
 // Takes a current index number and increases or decreases as needed. Resettingvalue back to min as required.
 const moveVerticalOrHorizontal = function(indexNum, direction) {
   let max = direction === "up" || direction === "down" ? 9 : 10;
