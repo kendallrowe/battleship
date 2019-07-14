@@ -6,7 +6,10 @@ app.set("view engine", "ejs");
 
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  let templateVars = {
+    
+  };
+  res.render("main_gamepage", templateVars);
 });
 
 // app.get("/urls.json", (req, res) => {
